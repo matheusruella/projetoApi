@@ -18,6 +18,8 @@ public class Endereco {
     private String bairro;
     private String localidade;
     private String uf;
+
+
     
 	public Long getId() {
 		return id;
