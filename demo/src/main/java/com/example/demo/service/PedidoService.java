@@ -1,20 +1,22 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.example.demo.dto.PedidoRespondeDTO;
 import com.example.demo.entity.Cliente;
 import com.example.demo.entity.Endereco;
+import com.example.demo.entity.Pedido;
 import com.example.demo.enums.PedidoStatus;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.EnderecoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.entity.Pedido;
-import com.example.demo.entity.Produto;
 import com.example.demo.repository.PedidoRepository;
-
-import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -88,5 +90,25 @@ public class PedidoService {
 				atualizado.getProdutos()
 		);
 		return ResponseEntity.ok(respostaDTO);
+	}
+	
+	public PedidoRespondeDTO listarPorId(Long id) {
+		Optional<Pedido> pedido = repository.findById(id);
+		
+		if (pedido.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado com ID: " + id);
+			
+		}
+		Pedido p = pedido.get();
+		Double total = p.getPreco() * p.getQuantidade();
+		PedidoRespondeDTO dto = new PedidoRespondeDTO();
+		dto.setId(p.getId());
+		dto.setQuantidade(p.getQuantidade());
+		dto.setPreco(total);
+		dto.setClienteId(p.getCliente().getId());
+		dto.setEnderecoId(p.getEndereco().getId());
+		dto.setStatus(p.getStatus());
+		dto.setProdutos(p.getProdutos());
+		return dto;
 	}
 }
