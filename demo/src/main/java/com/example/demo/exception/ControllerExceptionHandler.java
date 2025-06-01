@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.w3c.dom.stylesheets.LinkStyle;
@@ -12,6 +13,8 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.web.servlet.function.ServerResponse.badRequest;
 
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -27,5 +30,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
     }
 
+    @ExceptionHandler(EnderecoException.class)
+    protected ResponseEntity<Object> handleEnderecoException(EnderecoException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(PedidoException.class)
+    protected ResponseEntity<Object> handlePedidoException(PedidoException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+    
 
 }
