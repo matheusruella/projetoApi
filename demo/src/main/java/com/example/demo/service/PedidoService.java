@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.Optional;
 
+import com.example.demo.exception.PedidoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
@@ -32,16 +33,16 @@ public class PedidoService {
 
 	public PedidoRespondeDTO inserir(PedidoRespondeDTO dto) {
 		if (dto.getId() != null && repository.findById(dto.getId()).isPresent()) {
-			throw new RuntimeException("Pedido já cadastrado");
+			throw new PedidoException("Pedido já cadastrado");
 		}
 
 
 		Cliente cliente = clienteRepository.findById(dto.getClienteId())
-				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+				.orElseThrow(() -> new PedidoException("Cliente não encontrado"));
 
 
 		Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
-				.orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+				.orElseThrow(() -> new PedidoException("Endereço não encontrado"));
 
 
 		Pedido pedido = new Pedido();

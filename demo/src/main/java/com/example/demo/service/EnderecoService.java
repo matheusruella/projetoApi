@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.EnderecoResponseDTO;
+
+import com.example.demo.exception.EnderecoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class EnderecoService {
 			}
 
 		}
-		throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+		throw new EnderecoException(HttpStatus.NOT_FOUND);
 
 	}
 
