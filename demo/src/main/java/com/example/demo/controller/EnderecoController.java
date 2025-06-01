@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.EnderecoResponseDTO;
+
 import com.example.demo.entity.Endereco;
 import com.example.demo.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
