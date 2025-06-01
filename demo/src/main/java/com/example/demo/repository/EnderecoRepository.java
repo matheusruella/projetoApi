@@ -6,5 +6,6 @@ import com.example.demo.entity.Endereco;
 
 
 public interface EnderecoRepository extends JpaRepository<Endereco,Long>{
+    Endereco findByCep(String cep);
 
 }
