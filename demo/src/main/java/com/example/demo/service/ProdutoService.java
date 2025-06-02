@@ -16,6 +16,7 @@ public class ProdutoService {
 	private ProdutoRepository repository;
 
 	public Produto inserir (Produto produto) {
+
 		return repository.save(produto);
 	}
 	

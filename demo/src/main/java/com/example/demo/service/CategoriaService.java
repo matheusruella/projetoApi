@@ -15,6 +15,7 @@ public class CategoriaService {
 	private CategoriaRepository repository;
 	
 	public Categoria inserir (Categoria categoria) {
+
 		return repository.save(categoria);
 	}
 	
