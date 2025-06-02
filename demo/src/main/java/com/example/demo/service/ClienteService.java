@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.EnderecoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class ClienteService {
     private EmailService emailService;
 
 	public Cliente inserir (Cliente cliente) {
+
 
 		Cliente salvo = repository.save(cliente);
 
