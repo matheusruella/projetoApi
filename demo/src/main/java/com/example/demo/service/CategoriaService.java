@@ -12,7 +12,7 @@ import com.example.demo.repository.CategoriaRepository;
 public class CategoriaService {
 	
 	@Autowired
-	private CategoriaRepository repository;
+	CategoriaRepository repository;
 	
 	public Categoria inserir (Categoria categoria) {
 

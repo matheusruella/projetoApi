@@ -3,9 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.dto.EnderecoResponseDTO;
 import com.example.demo.entity.Cliente;
 import com.example.demo.entity.Endereco;
+import com.example.demo.exception.EnderecoException;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.EnderecoService;
+
+import java.util.List;
+
+import org.serratec.backend.dto.UsuarioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +28,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente inserir(@RequestBody Cliente cliente) throws Exception {
+    public Cliente inserir(@RequestBody Cliente cliente) throws EnderecoException {
 
         Endereco endereco = enderecoService.buscarEnderecoPorCep(cliente.getCep());
         cliente.setEndereco(endereco);
@@ -34,6 +39,5 @@ public class ClienteController {
     public ResponseEntity<Cliente> alterar (@PathVariable Long id, @RequestBody Cliente cliente) {
         return clienteService.alterar(id, cliente);
     }
-
-
+    
 }

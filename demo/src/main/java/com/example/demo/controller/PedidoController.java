@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,30 +9,30 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Produto;
-import com.example.demo.service.ProdutoService;
+import com.example.demo.dto.PedidoRespondeDTO;
+import com.example.demo.service.PedidoService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@RequestMapping("/produtos")
-public class ProdutoController {
+@RequestMapping("/pedidos")
+public class PedidoController {
 
 	@Autowired
-	private ProdutoService produtoService;
+	private PedidoService pedidoService;
 	
 	@PostMapping
-	public Produto inserir(@RequestBody Produto produto) {
-		return produtoService.inserir(produto);
-	}
-	
-	@GetMapping
-	public List<Produto> listar(){
-		return produtoService.listar();
+	public PedidoRespondeDTO inserir(@RequestBody PedidoRespondeDTO pedido){
+		return pedidoService.inserir(pedido);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Produto> alterar(@PathVariable Long id, @RequestBody Produto produto) {
-		return produtoService.alterar(id, produto);
+	public ResponseEntity<PedidoRespondeDTO> alterar(@PathVariable Long id, @RequestBody PedidoRespondeDTO pedido) {
+		return pedidoService.alterar(id, pedido);
+	}
+	
+	@GetMapping("/{id}")
+	public PedidoRespondeDTO listarPorId (@PathVariable Long id) {
+		return pedidoService.listarPorId(id);
 	}
 }

@@ -21,7 +21,7 @@ public class EnderecoService {
 	private EnderecoRepository repository;
 
 	
-	public Endereco buscarEnderecoPorCep (String cep) throws Exception{
+	public Endereco buscarEnderecoPorCep (String cep) throws EnderecoException{
 		var endereco = Optional.ofNullable(repository.findByCep(cep)) ;
 
 		if (endereco.isPresent()) {
