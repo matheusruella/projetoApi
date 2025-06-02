@@ -41,12 +41,12 @@ public class Categoria {
 		this.id = id;
 	}
 
-	public String gettipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void settipo(String tipo) {
-		tipo = tipo;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public List<Produto> getProdutos() {
@@ -56,6 +56,4 @@ public class Categoria {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-
-    
 }

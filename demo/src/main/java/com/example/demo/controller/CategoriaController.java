@@ -1,17 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CategoriaRequestDTO;
+import com.example.demo.dto.CategoriaResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Categoria;
 import com.example.demo.service.CategoriaService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("/categorias")
@@ -21,8 +19,10 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 	
 	@PostMapping
-	public Categoria inserir(@RequestBody Categoria categoria) {
+	public CategoriaResponseDTO inserir(@RequestBody CategoriaRequestDTO categoria) {
+		System.out.println("PAssou aqui");
 		return categoriaService.inserir(categoria);
+
 	}
 	
 	@PutMapping("/{id}")
