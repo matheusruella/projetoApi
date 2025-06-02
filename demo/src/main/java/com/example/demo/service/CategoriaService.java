@@ -15,7 +15,13 @@ import com.example.demo.repository.CategoriaRepository;
 public class CategoriaService {
 	
 	@Autowired
+<<<<<<< HEAD
 	private CategoriaRepository repository;
+=======
+	CategoriaRepository repository;
+	
+	public Categoria inserir (Categoria categoria) {
+>>>>>>> a3b7473af56cd74c4b1a054ba881189876ca8fce
 
 	@Transactional
 	public CategoriaResponseDTO inserir (CategoriaRequestDTO dto) {

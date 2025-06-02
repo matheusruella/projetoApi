@@ -19,6 +19,16 @@ public class Produto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
     
+	public Produto() {
+		super();
+	}
+	public Produto(Long id, String nome, Double preco, Categoria categoria) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.preco = preco;
+		this.categoria = categoria;
+	}
 	public Long getId() {
 		return id;
 	}
