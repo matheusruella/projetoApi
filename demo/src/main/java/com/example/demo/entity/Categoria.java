@@ -21,7 +21,6 @@ public class Categoria {
     @JsonManagedReference("produto-pedido")
     private List<Produto> produtos;
 
-    
 	public Categoria() {
 		super();
 	}
