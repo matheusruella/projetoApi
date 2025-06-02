@@ -8,6 +8,7 @@ import com.example.demo.service.ClienteService;
 import com.example.demo.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,6 +28,11 @@ public class ClienteController {
         Endereco endereco = enderecoService.buscarEnderecoPorCep(cliente.getCep());
         cliente.setEndereco(endereco);
         return clienteService.inserir(cliente);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> alterar (@PathVariable Long id, @RequestBody Cliente cliente) {
+        return clienteService.alterar(id, cliente);
     }
 
 
