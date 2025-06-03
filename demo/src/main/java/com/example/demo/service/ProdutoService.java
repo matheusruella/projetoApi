@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ProdutoRespondeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,11 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repository;
 
-	public Produto inserir (Produto produto) {
-
-		return repository.save(produto);
+	public ProdutoRespondeDTO inserir (Produto produto) {
+		System.out.println(produto);
+		 Produto prod = repository.save(produto);
+		System.out.println(prod);
+		 return new ProdutoRespondeDTO(prod);
 	}
 	
 	public List<Produto> listar() {

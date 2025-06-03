@@ -45,17 +45,19 @@ public class Cliente {
 	public Cliente() {
 		super();
 	}
-	public Cliente(Long id, String nome, String numero, String complemento, String email, String cep,
-			Endereco endereco) {
-		super();
+
+	public Cliente(Long id, String nome, String numero, String complemento, String email, String cep, String telefone, String cpf, Endereco endereco) {
 		this.id = id;
 		this.nome = nome;
 		this.numero = numero;
 		this.complemento = complemento;
 		this.email = email;
 		this.cep = cep;
+		this.telefone = telefone;
+		this.cpf = cpf;
 		this.endereco = endereco;
 	}
+
 	public Long getId() {
 		return id;
 	}
