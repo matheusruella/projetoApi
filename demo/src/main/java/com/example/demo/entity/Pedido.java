@@ -16,6 +16,7 @@ public class Pedido {
     private Double preco;
 
     @OneToOne
+	@JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @OneToOne
