@@ -1,6 +1,6 @@
 package com.example.demo.entity.pk;
 
-import java.util.Objects;
+import java.io.Serializable;
 
 import com.example.demo.entity.Perfil;
 import com.example.demo.entity.Usuario;
@@ -9,52 +9,54 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+//Indica que essa classe pode ser incorporada dentro de outra entidade
 @Embeddable
-public class UsuarioPerfilPK {
+public class UsuarioPerfilPK implements Serializable {
 
-	@ManyToOne
-	@JoinColumn(name = "id_usuario") //PK
-	private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-	@ManyToOne
-	@JoinColumn(name = "id_perfil")  //PK
-	private Perfil perfil;
+    @ManyToOne
+    @JoinColumn(name = "perfil_id")
+    private Perfil perfil;
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    // Construtor padrão (necessário para JPA)
+    public UsuarioPerfilPK() {
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    // ✅ Construtor que aceita Usuario e Perfil
+    public UsuarioPerfilPK(Usuario usuario, Perfil perfil) {
+        this.usuario = usuario;
+        this.perfil = perfil;
+    }
 
-	public Perfil getPerfil() {
-		return perfil;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	//indexar os dados - ex: cpf vira (1a) pra facilitar a comparação pelo equals
+    public Perfil getPerfil() {
+        return perfil;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(perfil, usuario);
-	}
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
 
-	//comparar e evitar duplicidade
+    @Override
+    public int hashCode() {
+        return usuario.hashCode() + perfil.hashCode();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if ((obj == null) || (getClass() != obj.getClass())) {
-			return false;
-		}
-		UsuarioPerfilPK other = (UsuarioPerfilPK) obj;
-		return Objects.equals(perfil, other.perfil) && Objects.equals(usuario, other.usuario);
-	}
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UsuarioPerfilPK that = (UsuarioPerfilPK) obj;
+        return usuario.equals(that.usuario) && perfil.equals(that.perfil);
+    }
 }
