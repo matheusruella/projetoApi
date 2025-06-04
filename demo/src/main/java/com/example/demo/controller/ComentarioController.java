@@ -27,6 +27,7 @@ public class ComentarioController {
     @Autowired
     private ComentarioService comentarioService;
 
+    
     @Operation(summary = "Envio de comentário do cliente para a empresa", description = "O cliente envia um comentário via Frontend, e a API processa e registra no banco de dados. A resposta retorna a confirmação do envio.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = Comentario.class), mediaType = "application/json") }, description = "Comentário registrado com sucesso."),
@@ -49,6 +50,7 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarios);
     }
 
+    
     // Listar todos os comentários
     @GetMapping
     public ResponseEntity<List<Comentario>> listarTodosComentarios() {
