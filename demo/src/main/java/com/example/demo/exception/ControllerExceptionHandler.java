@@ -38,6 +38,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handlePedidoException(PedidoException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+    @ExceptionHandler(FavoritoException.class)
+    protected ResponseEntity<Object> handleFavoritoException(FavoritoException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
     
 
 }
