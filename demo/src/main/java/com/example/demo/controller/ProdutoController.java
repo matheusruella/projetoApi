@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-
 import java.util.List;
 
 import com.example.demo.dto.ProdutoRespondeDTO;
@@ -16,22 +15,22 @@ import com.example.demo.service.ProdutoService;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-	@Autowired
-	private ProdutoService produtoService;
-	
-	@PostMapping
-	public ProdutoRespondeDTO inserir(@RequestBody Produto produto) {
-		System.out.println(produto);
-		return produtoService.inserir(produto);
-	}
-	
-	@GetMapping
-	public List<Produto> listar(){
-		return produtoService.listar();
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Produto> alterar(@PathVariable Long id, @RequestBody Produto produto) {
-		return produtoService.alterar(id, produto);
-	}
+    @Autowired
+    private ProdutoService produtoService;
+
+    @PostMapping
+    public ProdutoRespondeDTO inserir(@RequestBody Produto produto) {
+        System.out.println(produto);
+        return produtoService.inserir(produto);
+    }
+
+    @GetMapping
+    public List<Produto> listar(){
+        return produtoService.listar();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> alterar(@PathVariable Long id, @RequestBody Produto produto) {
+        return produtoService.alterar(id, produto);
+    }
 }

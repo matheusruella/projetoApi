@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Produto;
 import com.example.demo.repository.ProdutoRepository;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @Service
@@ -35,5 +37,10 @@ public class ProdutoService {
 			return ResponseEntity.ok(repository.save(produto));
 		}
 		return ResponseEntity.notFound().build();
+	}
+
+	public static Produto salvarProduto(@Valid ProdutoRespondeDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

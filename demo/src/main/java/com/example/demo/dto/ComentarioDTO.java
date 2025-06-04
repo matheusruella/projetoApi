@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+<<<<<<< HEAD
 
 import jakarta.validation.constraints.*;
 
@@ -28,6 +29,18 @@ public class ComentarioDTO {
      * @param texto Conteúdo do comentário.
      * @param nota Avaliação do produto (1 a 5 estrelas).
      */
+=======
+public class ComentarioDTO {
+    private Long produtoId;
+    private Long clienteId;
+    private String texto;
+    private int nota;
+
+    // Construtor padrão
+    public ComentarioDTO() {}
+
+    // Construtor com parâmetros
+>>>>>>> main
     public ComentarioDTO(Long produtoId, Long clienteId, String texto, int nota) {
         this.produtoId = produtoId;
         this.clienteId = clienteId;
@@ -36,6 +49,7 @@ public class ComentarioDTO {
     }
 
     // Getters e Setters
+<<<<<<< HEAD
     public Long getProdutoId() { return produtoId; }
     public void setProdutoId(Long produtoId) { this.produtoId = produtoId; }
 
@@ -47,4 +61,37 @@ public class ComentarioDTO {
 
     public int getNota() { return nota; }
     public void setNota(int nota) { this.nota = nota; }
+=======
+    public Long getProdutoId() {
+        return produtoId;
+    }
+
+    public void setProdutoId(Long produtoId) {
+        this.produtoId = produtoId;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
+    }
+>>>>>>> main
 }
