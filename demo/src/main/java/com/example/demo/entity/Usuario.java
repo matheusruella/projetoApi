@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,17 +20,15 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Usuario implements UserDetails { // Implementa UserDetails para integrar com Spring Security
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Gera ID automaticamente no banco
     private Long id;
-
     private String nome;
     private String email;
     private String senha; 
 
     // um usuário pode usar vários perfis, relaciona usuario com perfil
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.usuario")
     private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
 
     @ManyToOne
@@ -81,7 +78,7 @@ public class Usuario implements UserDetails { // Implementa UserDetails para int
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return usuarioPerfis.stream()
-            .map(up -> new SimpleGrantedAuthority("ROLE_" + up.getId().getPerfil().getNome().toUpperCase())) // Agora acessa via `getId()`
+            .map(up -> new SimpleGrantedAuthority(up.getId().getPerfil().getNome().toUpperCase())) // Agora acessa via `getId()`
             .collect(Collectors.toSet());
     }
 

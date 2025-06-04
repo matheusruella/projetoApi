@@ -6,35 +6,27 @@ import com.example.demo.entity.pk.UsuarioPerfilPK;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class UsuarioPerfil {
-
     @EmbeddedId
-    private UsuarioPerfilPK id;
+    private UsuarioPerfilPK id = new UsuarioPerfilPK();
     
     private LocalDate dataCriacao;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", insertable = false, updatable = false) // Define a chave estrangeira
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "perfil_id", insertable = false, updatable = false) // Evita duplicidade
-    private Perfil perfil;
     
-    public UsuarioPerfil(UsuarioPerfilPK id, LocalDate dataCriacao) {
-        this.id = id; // Usa diretamente o que foi passado
-        this.dataCriacao = dataCriacao;
-    
+    public UsuarioPerfil(Usuario usuario, Perfil perfil) {
+        id.setPerfil(perfil);
+        id.setUsuario(usuario);
 	}
 
 	public UsuarioPerfil() {
     }
 
-     public void setId(UsuarioPerfilPK id) {
+    public UsuarioPerfilPK getId() {
+        return id;
+    }
+
+    public void setId(UsuarioPerfilPK id) {
         this.id = id;
     }
 
@@ -46,23 +38,19 @@ public class UsuarioPerfil {
         this.dataCriacao = dataCriacao;
     }
 
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public UsuarioPerfilPK getId() {
-		return id;
-	}
-	public Perfil getPerfil() {
-        return perfil;
+    public Usuario getUsuario() {
+        return id.getUsuario();
     }
 
+    public void setUsuario(Usuario usuario) {
+        id.setUsuario(usuario);
+    }
+
+    public Perfil getPerfil() {
+        return id.getPerfil();
+    }
+
+    public void setPerfil(Perfil perfil) {
+        id.setPerfil(perfil);
+    }
 }
