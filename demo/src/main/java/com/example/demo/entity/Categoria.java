@@ -15,11 +15,22 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Tipo;
+    private String tipo;
 
     @OneToMany(mappedBy = "categoria")
     @JsonManagedReference("produto-pedido")
     private List<Produto> produtos;
+
+	public Categoria() {
+		super();
+	}
+
+	public Categoria(Long id, String tipo, List<Produto> produtos) {
+		super();
+		this.id = id;
+		this.tipo = tipo;
+		this.produtos = produtos;
+	}
 
 	public Long getId() {
 		return id;
@@ -30,11 +41,11 @@ public class Categoria {
 	}
 
 	public String getTipo() {
-		return Tipo;
+		return tipo;
 	}
 
 	public void setTipo(String tipo) {
-		Tipo = tipo;
+		this.tipo = tipo;
 	}
 
 	public List<Produto> getProdutos() {
@@ -44,6 +55,4 @@ public class Categoria {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-
-    
 }

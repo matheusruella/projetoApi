@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Pedido;
 import com.example.demo.entity.Produto;
 import com.example.demo.enums.PedidoStatus;
 
@@ -26,6 +27,18 @@ public class PedidoRespondeDTO {
         this.enderecoId = enderecoId;
         this.status = status;
         this.produtos = produtos;
+    }
+
+    public static PedidoRespondeDTO fromEntity(Pedido pedido) {
+        return new PedidoRespondeDTO(
+                pedido.getId(),
+                pedido.getQuantidade(),
+                pedido.getPreco(),
+                pedido.getCliente() != null ? pedido.getCliente().getId() : null,
+                pedido.getEndereco() != null ? pedido.getEndereco().getId() : null,
+                pedido.getStatus(),
+                pedido.getProdutos()
+        );
     }
 
     // Getters e Setters
