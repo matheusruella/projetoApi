@@ -1,18 +1,17 @@
 package com.example.demo.dto;
 
-public class LoginDTO {
-
+public class LoginRequestDTO {
 	private String username;
 	private String password;
 
-	public LoginDTO() {
-		super();
+	public LoginRequestDTO() {
 	}
-	public LoginDTO(String username, String password) {
-		super();
+
+	public LoginRequestDTO(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
+
 	public String getUsername() {
 		return username;
 	}

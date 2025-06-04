@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.demo.repository.PerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository repository;
+
+	@Autowired
+	private PerfilRepository perfilRepository;
 
 	@Autowired
 	private PerfilService perfilService;
@@ -61,21 +65,17 @@ public class UsuarioService {
 	    Usuario usuarioEntity = new Usuario();
 	    usuarioEntity.setNome(usuario.getNome());
 	    usuarioEntity.setEmail(usuario.getEmail());
-	    usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha())); // Aplicando criptografia corretamente
+	    usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
 
-	    // Salva o usuário
-	    usuarioEntity = repository.save(usuarioEntity);
-	    final Usuario usuarioFinal = usuarioEntity;   //Variável final para uso na lambda
+	    for(UsuarioPerfil up : usuario.getUsuarioPerfis()){
+			up.setUsuario(usuarioEntity);
+			up.setPerfil(perfilRepository.findById(up.getPerfil().getId()).orElseThrow(()-> new RuntimeException("Perfil não encontrado!")));
+			up.setDataCriacao(LocalDate.now());
+		}
 
-	    // Criando os perfis e associando ao usuário
-	    Set<UsuarioPerfil> usuarioPerfis = usuario.getUsuarioPerfis().stream()
-	        .map(idPerfil -> new UsuarioPerfil(
-	            new UsuarioPerfilPK(usuarioFinal, Optional.ofNullable(perfilService.buscar(idPerfil))
-	                .orElseThrow(() -> new UsuarioException("Perfil não encontrado!"))),
-	            LocalDate.now()))
-	        .collect(Collectors.toSet());
-
-	    usuarioPerfilRepository.saveAll(usuarioPerfis);
+		repository.save(usuarioEntity);
+		System.out.println(usuarioEntity.getUsuarioPerfis());
+	    usuarioPerfilRepository.saveAll(usuario.getUsuarioPerfis());
 
 	    return new UsuarioResponseDTO(usuarioEntity.getId(), usuarioEntity.getNome(), usuarioEntity.getEmail());
 	}

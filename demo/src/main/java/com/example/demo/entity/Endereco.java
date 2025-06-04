@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.EnderecoResponseDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -73,5 +74,9 @@ public class Endereco {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public EnderecoResponseDTO toDTO(Endereco endereco){
+		return new EnderecoResponseDTO(endereco);
 	}
 }
