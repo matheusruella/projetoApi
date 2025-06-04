@@ -44,7 +44,7 @@ public class SecurityConfig {
 				// quem pode acessar cada coisa
 
 				.authorizeHttpRequests(requests -> requests
-
+						
 						.requestMatchers("/public/**").permitAll() // pode todo mundo ver
 
 						// H2 - BD
@@ -84,6 +84,19 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/perfis").permitAll() // Todos listam
 						.requestMatchers(HttpMethod.POST, "/perfis").permitAll() // Só admin podem os alterar
 
+						//Favoritos
+						.requestMatchers(HttpMethod.POST, "/favoritos/**").permitAll()
+		                .requestMatchers(HttpMethod.GET, "/favoritos/**").permitAll()
+		                .requestMatchers(HttpMethod.PUT, "/favoritos/**").permitAll()
+		                .requestMatchers(HttpMethod.DELETE, "/favoritos/**").permitAll()
+		               
+		                //Wishlist Complementar
+		                .requestMatchers(HttpMethod.POST, "/listadedesejos").permitAll()
+		                .requestMatchers(HttpMethod.GET, "/listadedesejos/{id}").permitAll()
+		                .requestMatchers(HttpMethod.PUT, "/listadedesejos/{id}").permitAll()
+		                .requestMatchers(HttpMethod.DELETE, "/listadedesejos/{id}").permitAll()
+		                .requestMatchers(HttpMethod.GET, "/listadedesejos/cliente/{clienteId}").permitAll()
+						
 						.anyRequest().authenticated() // só usa se estiver logado
 				)
 
@@ -123,7 +136,7 @@ public class SecurityConfig {
 
 		// portas onde o front roda
 		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000",
-				"http://localhost:2000", "http://localhost:8080"));
+				"http://localhost:2000"));
 
 		// métodos que o frontend pode usar
 		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));

@@ -15,6 +15,8 @@ public class UsuarioRequestDTO {
 	private String email;
 	@NotBlank
 	private String senha;
+	@NotBlank
+	private EnderecoResponseDTO endereco;
 
 
 	private Set<Long> usuarioPerfis = new HashSet<>();
@@ -23,11 +25,13 @@ public class UsuarioRequestDTO {
 		super();
 	}
 
-	public UsuarioRequestDTO(Usuario usuario) {
+	public UsuarioRequestDTO(@NotBlank String nome, @Email String email, @NotBlank String senha,
+			@NotBlank EnderecoResponseDTO endereco, Set<Long> usuarioPerfis) {
 		super();
-		this.nome = usuario.getNome();
-		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.endereco = endereco;
 	}
 
 	public Set<Long> getUsuarioPerfis() {
@@ -52,5 +56,18 @@ public class UsuarioRequestDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	public EnderecoResponseDTO getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(EnderecoResponseDTO endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setUsuarioPerfis(Set<Long> usuarioPerfis) {
+		this.usuarioPerfis = usuarioPerfis;
+	}
+	
 
 }

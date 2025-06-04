@@ -1,11 +1,13 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -20,14 +22,13 @@ public class Cliente {
     private String email;
 	private String cep;
 
-	@ManyToOne
-	@JoinColumn(name = "id_endereco")
-	private Endereco endereco;
+	@OneToMany(mappedBy = "cliente")
+	private List<Endereco> enderecos;
 	
 	@OneToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -76,12 +77,13 @@ public class Cliente {
 		this.cep = cep;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	public Usuario getUsuario() {
