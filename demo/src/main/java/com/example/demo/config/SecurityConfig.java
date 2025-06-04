@@ -44,8 +44,15 @@ public class SecurityConfig {
 				// quem pode acessar cada coisa
 
 				.authorizeHttpRequests(requests -> requests
+
+						.requestMatchers(
+								"/v3/api-docs/**",
+								"/swagger-ui/**",
+								"/swagger-ui.html"
+						).permitAll()
 						
 						.requestMatchers("/public/**").permitAll() // pode todo mundo ver
+
 
 						// H2 - BD
 						.requestMatchers("/h2-console/**").permitAll() // mexer no H2 sem login
