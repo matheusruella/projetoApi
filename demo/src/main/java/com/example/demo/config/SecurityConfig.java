@@ -45,11 +45,13 @@ public class SecurityConfig {
 
 				.authorizeHttpRequests(requests -> requests
 
+
 						.requestMatchers(
 								"/v3/api-docs/**",
 								"/swagger-ui/**",
 								"/swagger-ui.html"
 						).permitAll()
+
 						
 						.requestMatchers("/public/**").permitAll() // pode todo mundo ver
 
