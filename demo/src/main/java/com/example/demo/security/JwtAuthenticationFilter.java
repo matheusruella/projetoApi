@@ -14,69 +14,63 @@ import com.example.demo.dto.LoginDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// Classe que processa a autenticação e gera o token JWT
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {    
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {    //faz o login e libera o token
-    
-    private AuthenticationManager authenticationManager;  //verificar se o login está certo
-    private JwtUtil jwtUtil;   //criar o token 
-    
-    // filtra com as ferramentas necessárias
+    private AuthenticationManager authenticationManager; // Gerencia a autenticação dos usuários
+    private JwtUtil jwtUtil; // Gera e valida tokens JWT
+
+    // Construtor que recebe as dependências necessárias
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 
-    // tenta fazer o login
+    // Método chamado quando uma requisição de login é feita
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         
-        System.out.println("Tentativa de autenticação...");
-
         try {
-           
-			LoginDTO login = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
-            
-            // Cria token com nome e senha
+            // Lê os dados do login enviados no corpo da requisição (JSON)
+            LoginDTO login = new ObjectMapper().readValue(request.getReader(), LoginDTO.class);
+
+            // Cria um objeto de autenticação com nome e senha
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     login.getUsername(),
                     login.getPassword(),
-                    new ArrayList<>()  // permissões vazias, poderia passar
+                    new ArrayList<>() // Lista vazia, permissões serão carregadas depois
             );
 
-            // verifica se o token é verdadeiro
-            Authentication auth = authenticationManager.authenticate(authToken);
-            
-            // retorna se deu certo ou não
-            return auth;
-            
+            // Autentica o usuário e retorna o resultado
+            return authenticationManager.authenticate(authToken);
+
         } catch (IOException e) {
-            // Se deu erro ao pegar o login
-            throw new RuntimeException("Falha ao autenticar o cliente!", e);
+            // Se ocorrer um erro ao processar o login, retorna uma exceção
+            throw new RuntimeException("Erro ao processar login!", e);
         }
     }
 
-    // usado quando o login está ok
+    // Método chamado quando o login é bem-sucedido
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-            Authentication authResult) throws IOException, ServletException {
+            Authentication authResult) throws IOException {
         
-        System.out.println("Geração do token");
-        
-        // Pega o nome do usuário do login ativo
+        // Obtém o nome do usuário autenticado
         String username = ((UserDetails) authResult.getPrincipal()).getUsername();
-        
-        // Gera um token para o usuario ativo
+
+        // Gera um token JWT para esse usuário
         String token = jwtUtil.generateToken(username);
-        
-        // Coloca o token do usuario na resposta
-        response.addHeader("Authorization", "Bearer " + token);
-        
-        // Libera para ser lido pelo navegador
-        response.addHeader("access-control-expose-headers", "Authorization");
+
+        // Define o token no cabeçalho da resposta HTTP
+        response.setHeader("Authorization", "Bearer " + token);
+        response.setHeader("access-control-expose-headers", "Authorization");
+
+        // Envia o token como resposta no corpo da requisição para facilitar o uso pelo frontend
+        response.setContentType("application/json");
+        response.getWriter().write("{\"token\": \"Bearer " + token + "\"}");
     }
 }

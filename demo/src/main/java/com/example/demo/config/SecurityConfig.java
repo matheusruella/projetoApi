@@ -44,7 +44,7 @@ public class SecurityConfig {
 				// quem pode acessar cada coisa
 
 				.authorizeHttpRequests(requests -> requests
-
+						
 						.requestMatchers("/public/**").permitAll() // pode todo mundo ver
 
 						// H2 - BD
