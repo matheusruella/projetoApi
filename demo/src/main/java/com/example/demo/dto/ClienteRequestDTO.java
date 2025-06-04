@@ -3,40 +3,52 @@ package com.example.demo.dto;
 import com.example.demo.entity.Cliente;
 
 public class ClienteRequestDTO {
-    private Long id;
-    private String nome;
-    private String email;
+	private Long id;
+	private String nome;
+	private String email;
 
-    public ClienteRequestDTO() {
-    }
+	private Long usuarioId;
 
-    public ClienteRequestDTO(Cliente cliente ) {
-        this.id = cliente.getId();
-        this.nome = cliente.getNome();
-        this.email = cliente.getEmail();
-    }
+	public ClienteRequestDTO() {
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public ClienteRequestDTO(Cliente cliente) {
+		this.id = cliente.getId();
+		this.nome = cliente.getNome();
+		this.email = cliente.getEmail();
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Long getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
+
+	}
+
 }
