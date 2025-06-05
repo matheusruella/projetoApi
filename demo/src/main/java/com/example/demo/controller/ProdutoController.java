@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.Produto;
 import com.example.demo.service.ProdutoService;
 
-
-
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
