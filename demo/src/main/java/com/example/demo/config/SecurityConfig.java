@@ -7,11 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -34,11 +37,30 @@ public class SecurityConfig {
 	private UserDetailsService userDetailsService;
 
 	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	// Configura o AuthenticationProvider para usar seu UserDetailsService e PasswordEncoder
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setPasswordEncoder(passwordEncoder());
+		return authProvider;
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
+	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				.authorizeHttpRequests(requests -> requests
-						.requestMatchers("/auth/login").hasAnyRole("ADMIN","USER")
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/auth/login").permitAll()  // liberado para todos
 						.requestMatchers("/public/**").permitAll()
 						.requestMatchers("/h2-console/**").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
@@ -49,6 +71,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/pedidos/**").hasRole("ADMIN")
 
+						.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/pedidos/**").hasRole("USER")
 						.requestMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN")
 
@@ -57,7 +80,9 @@ public class SecurityConfig {
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.headers(headers -> headers.frameOptions().disable());
+				.headers(headers -> headers.frameOptions().disable())
+
+				.authenticationProvider(authenticationProvider()); // registra o authProvider
 
 		http.addFilterBefore(new JwtAuthenticationFilter(
 						authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil),
@@ -68,12 +93,6 @@ public class SecurityConfig {
 				UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
-	}
-
-	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 	@Bean
