@@ -4,14 +4,13 @@ import java.util.Optional;
 
 import com.example.demo.exception.PedidoException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.dto.PedidoRespondeDTO;
-import com.example.demo.entity.Cliente;
+import com.example.demo.entity.Usuario;
 import com.example.demo.entity.Endereco;
 import com.example.demo.entity.Pedido;
 import com.example.demo.enums.PedidoStatus;
@@ -37,8 +36,8 @@ public class PedidoService {
 		}
 
 
-		Cliente cliente = clienteRepository.findById(dto.getClienteId())
-				.orElseThrow(() -> new PedidoException("Cliente não encontrado"));
+		Usuario usuario = clienteRepository.findById(dto.getClienteId())
+				.orElseThrow(() -> new PedidoException("Usuario não encontrado"));
 
 
 		Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
@@ -48,7 +47,7 @@ public class PedidoService {
 		Pedido pedido = new Pedido();
 		pedido.setQuantidade(dto.getQuantidade());
 		pedido.setPreco(dto.getPreco());
-		pedido.setCliente(cliente);
+		pedido.setCliente(usuario);
 		pedido.setEndereco(endereco);
 		pedido.setProdutos(dto.getProdutos());
 		pedido.setStatus(dto.getStatus() != null ? dto.getStatus() : PedidoStatus.PENDENTE);
@@ -75,10 +74,10 @@ public class PedidoService {
 			return ResponseEntity.notFound().build();
 		}
 		Pedido pedidoEntity = pedidoOptional.get();
-		Cliente cliente = clienteRepository.findById(pedido.getClienteId()).orElseThrow(()-> new RuntimeException("Cliente não encontrado"));
+		Usuario usuario = clienteRepository.findById(pedido.getClienteId()).orElseThrow(()-> new RuntimeException("Usuario não encontrado"));
 		pedidoEntity.setQuantidade(pedido.getQuantidade());
 		pedidoEntity.setPreco(pedido.getPreco());
-		pedidoEntity.setCliente(cliente);
+		pedidoEntity.setCliente(usuario);
 		pedidoEntity.setProdutos(pedido.getProdutos());
 		Pedido atualizado = repository.save(pedidoEntity);
 		PedidoRespondeDTO respostaDTO = new PedidoRespondeDTO(

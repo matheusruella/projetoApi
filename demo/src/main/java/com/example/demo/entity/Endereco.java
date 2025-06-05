@@ -23,7 +23,7 @@ public class Endereco {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Usuario usuario;
     
 	public Endereco() {
 		super();
@@ -76,7 +76,13 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	public EnderecoResponseDTO toDTO(Endereco endereco){
-		return new EnderecoResponseDTO(endereco);
-	}
+//	public EnderecoResponseDTO toDTO() {
+//		EnderecoResponseDTO dto = new EnderecoResponseDTO();
+//		dto.setCep(this.getCep());
+//		dto.setLogradouro(this.getLogradouro());
+//		dto.setBairro(this.getBairro());
+//		dto.setLocalidade(this.getLocalidade());
+//		dto.setUf(this.getUf());
+//		return dto;
+//	}
 }

@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Cliente;
+import com.example.demo.entity.Usuario;
 import com.example.demo.entity.Favorito;
 import com.example.demo.entity.Produto;
 import com.example.demo.exception.FavoritoException;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,17 +31,17 @@ public class FavoritoService {
 
     public ResponseEntity<String> adicionarFavorito(Long clienteId, Long produtoId) {
 
-        Optional<Cliente> clienteOptional = clienteRepository.findById(clienteId);
+        Optional<Usuario> clienteOptional = clienteRepository.findById(clienteId);
         Optional<Produto> produtoOptional = produtoRepository.findById(produtoId);
 
         if (!clienteOptional.isPresent() || !produtoOptional.isPresent()) {
-            throw new FavoritoException("Cliente ou Produto encontrado");
+            throw new FavoritoException("Usuario ou Produto encontrado");
         }
-        Cliente cliente = clienteOptional.get();
+        Usuario usuario = clienteOptional.get();
         Produto produto = produtoOptional.get();
 
         Favorito favorito = new Favorito();
-        favorito.setCliente(cliente);
+        favorito.setCliente(usuario);
         favorito.setProduto(produto);
         favoritoRepository.save(favorito);
         return ResponseEntity.status(HttpStatus.CREATED).body("Produto adicionado aos favoritos com sucesso.");
@@ -50,12 +49,12 @@ public class FavoritoService {
 
 
     public List<Favorito> listarFavoritosPorCliente(Long idCliente) {
-        Optional<Cliente> clienteOptional = clienteRepository.findById(idCliente);
+        Optional<Usuario> clienteOptional = clienteRepository.findById(idCliente);
         if (!clienteOptional.isPresent()) {
-            throw new FavoritoException("Cliente não encontrado");
+            throw new FavoritoException("Usuario não encontrado");
         }
-        Cliente cliente = clienteOptional.get();
-        return favoritoRepository.findAllByCliente(cliente);
+        Usuario usuario = clienteOptional.get();
+        return favoritoRepository.findAllByCliente(usuario);
     }
 
 
@@ -78,11 +77,11 @@ public class FavoritoService {
     }
 
     public void removerFavorito(Long idCliente, Long idProduto) {
-        Optional<Cliente> clienteOptional = clienteRepository.findById(idCliente);
+        Optional<Usuario> clienteOptional = clienteRepository.findById(idCliente);
         if (!clienteOptional.isPresent()) {
-            throw new FavoritoException("Cliente não encontrado");
+            throw new FavoritoException("Usuario não encontrado");
         }
-        Cliente cliente = clienteOptional.get();
+        Usuario usuario = clienteOptional.get();
 
         Optional<Produto> produtoOptional = produtoRepository.findById(idProduto);
         if (!produtoOptional.isPresent()) {
@@ -90,7 +89,7 @@ public class FavoritoService {
         }
         Produto produto = produtoOptional.get();
 
-        Optional<Favorito> favoritoOptional = favoritoRepository.findByClienteAndProduto(cliente, produto);
+        Optional<Favorito> favoritoOptional = favoritoRepository.findByClienteAndProduto(usuario, produto);
         if (!favoritoOptional.isPresent()) {
             throw new FavoritoException("Favorito não encontrado");
         }

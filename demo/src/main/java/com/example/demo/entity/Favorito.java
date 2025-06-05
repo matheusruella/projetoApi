@@ -10,7 +10,7 @@ public class Favorito {
     private Long id;
 
     @ManyToOne
-    private Cliente cliente;
+    private Usuario cliente;
 
     @ManyToOne
     private Produto produto;
@@ -18,9 +18,9 @@ public class Favorito {
     public Favorito() {
     }
 
-    public Favorito(Long id, Cliente cliente, Produto produto) {
+    public Favorito(Long id, Usuario usuario, Produto produto) {
         this.id = id;
-        this.cliente = cliente;
+        this.cliente = usuario;
         this.produto = produto;
     }
 
@@ -32,11 +32,11 @@ public class Favorito {
         this.id = id;
     }
 
-    public Cliente getCliente() {
+    public Usuario getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 

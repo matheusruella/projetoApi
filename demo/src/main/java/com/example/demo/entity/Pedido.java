@@ -17,7 +17,7 @@ public class Pedido {
 
     @OneToOne
 	@JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Usuario usuario;
 
     @OneToOne
     private Endereco endereco;
@@ -34,13 +34,13 @@ public class Pedido {
 	public Pedido() {
 	}
 	
-	public Pedido(Long id, Integer quantidade, Double preco, Cliente cliente, Endereco endereco, List<Produto> produtos,
-			PedidoStatus status) {
+	public Pedido(Long id, Integer quantidade, Double preco, Usuario usuario, Endereco endereco, List<Produto> produtos,
+                  PedidoStatus status) {
 		super();
 		this.id = id;
 		this.quantidade = quantidade;
 		this.preco = preco;
-		this.cliente = cliente;
+		this.usuario = usuario;
 		this.endereco = endereco;
 		this.produtos = produtos;
 		this.status = status;
@@ -72,12 +72,12 @@ public class Pedido {
 		this.preco = preco;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Usuario getCliente() {
+		return usuario;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCliente(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Endereco getEndereco() {
