@@ -14,7 +14,7 @@ public class Wishlist {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Usuario cliente;
 
     @ManyToMany
     @JoinTable(
@@ -33,11 +33,11 @@ public class Wishlist {
         this.id = id;
     }
 
-    public Cliente getCliente() {
+    public Usuario getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 

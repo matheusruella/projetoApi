@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Cliente;
+import com.example.demo.entity.Usuario;
 
 public class ClienteRequestDTO {
 	private Long id;
@@ -12,10 +12,10 @@ public class ClienteRequestDTO {
 	public ClienteRequestDTO() {
 	}
 
-	public ClienteRequestDTO(Cliente cliente) {
-		this.id = cliente.getId();
-		this.nome = cliente.getNome();
-		this.email = cliente.getEmail();
+	public ClienteRequestDTO(Usuario usuario) {
+		this.id = usuario.getId();
+		this.nome = usuario.getNome();
+		this.email = usuario.getEmail();
 	}
 
 	public Long getId() {

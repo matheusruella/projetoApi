@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import com.example.demo.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.UsuarioRequestDTO;
 import com.example.demo.dto.UsuarioResponseDTO;
-import com.example.demo.entity.Usuario;
 import com.example.demo.service.UsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;

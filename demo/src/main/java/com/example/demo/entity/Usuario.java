@@ -1,9 +1,10 @@
 package com.example.demo.entity;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.example.demo.dto.EnderecoResponseDTO;
+import com.example.demo.dto.UsuarioRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,10 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,13 +27,27 @@ public class Usuario {
     private String complemento;
     private String email;
 	private String cep;
+	private String senha;
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Set<UsuarioPerfil> getUsuarioPerfis() {
+		return usuarioPerfis;
+	}
+
+	public void setUsuarioPerfis(Set<UsuarioPerfil> usuarioPerfis) {
+		this.usuarioPerfis = usuarioPerfis;
+	}
 
 	@OneToMany(mappedBy = "usuario")
 	private List<Endereco> enderecos;
 	
-	@OneToOne
-	@JoinColumn(name = "id_usuario")
-	private Usuario usuario;
 
 	@OneToMany(mappedBy = "id.usuario")
 	private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
@@ -91,14 +109,50 @@ public class Usuario {
 		this.enderecos = enderecos;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return usuarioPerfis.stream()
+				.map(up -> new SimpleGrantedAuthority(up.getPerfil().getNome()))
+				.collect(Collectors.toSet());
+	}
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	
 
 	}
-    
+
+	public EnderecoResponseDTO enderecoResponseDTO (Endereco endereco) {
+		return new EnderecoResponseDTO(endereco);
+	}
 }

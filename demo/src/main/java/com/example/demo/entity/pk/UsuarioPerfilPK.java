@@ -3,8 +3,8 @@ package com.example.demo.entity.pk;
 import java.io.Serializable;
 
 import com.example.demo.entity.Perfil;
-import com.example.demo.entity.Usuario;
 
+import com.example.demo.entity.Usuario;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

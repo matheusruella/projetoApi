@@ -1,14 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.WishlistResponseDTO;
-import com.example.demo.entity.Cliente;
+import com.example.demo.entity.Usuario;
 import com.example.demo.entity.Produto;
 import com.example.demo.entity.Wishlist;
 import com.example.demo.exception.WishlistException;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.ProdutoRepository;
 import com.example.demo.repository.WishlistRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +27,11 @@ public class WishlistService {
     private ProdutoRepository produtoRepository;
 
     public Wishlist criarWishlist(WishlistResponseDTO dto) {
-        Cliente cliente = clienteRepository.findById(dto.getClinteId()).orElseThrow(() -> new WishlistException("Cliente não encontrado"));
+        Usuario usuario = clienteRepository.findById(dto.getClinteId()).orElseThrow(() -> new WishlistException("Usuario não encontrado"));
         List<Produto> produtos = produtoRepository.findAllById(dto.getProdutosIds());
 
         Wishlist wishlist = new Wishlist();
-        wishlist.setCliente(cliente);
+        wishlist.setCliente(usuario);
         wishlist.setProdutos(produtos);
 
         return wishlistRepository.save(wishlist);

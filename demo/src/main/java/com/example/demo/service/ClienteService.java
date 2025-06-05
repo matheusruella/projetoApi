@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Cliente;
 import com.example.demo.entity.Usuario;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.UsuarioRepository;
@@ -20,7 +19,7 @@ public class ClienteService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	public Cliente inserir(Cliente cliente, Long usuarioId) {
+	public Usuario inserir(Usuario cliente, Long usuarioId) {
 
 		
 		// Buscar o usuário e associar
@@ -29,16 +28,16 @@ public class ClienteService {
 
 				cliente.setUsuario(usuario);
 		
-		Cliente salvo = repository.save(cliente);
+		Usuario salvo = repository.save(cliente);
 		
 
 		// envio de e-mail após cadastrar
-		emailService.enviarEmail(salvo.getEmail(), "Cliente cadastrado!",
+		emailService.enviarEmail(salvo.getEmail(), "Usuario cadastrado!",
 				"Olá " + salvo.getNome() + ", seu cadastro foi efetuado com sucesso!");
 		return salvo;
 	}
 
-	public ResponseEntity<Cliente> alterar(Long id, Cliente cliente, Long usuarioId) {
+	public ResponseEntity<Usuario> alterar(Long id, Usuario cliente, Long usuarioId) {
 
 		if (repository.findById(id).isPresent()) {
 
@@ -48,7 +47,7 @@ public class ClienteService {
 			cliente.setUsuario(usuario);
 			cliente.setId(id);
 			
-			Cliente atualizado = repository.save(cliente);
+			Usuario atualizado = repository.save(cliente);
 
 			// Envio de e-mail de atualização
 			emailService.enviarEmail(atualizado.getEmail(), "Cadastro atualizado!",

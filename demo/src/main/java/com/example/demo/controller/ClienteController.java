@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.demo.entity.Cliente;
 import com.example.demo.entity.Endereco;
 import com.example.demo.exception.EnderecoException;
 import com.example.demo.service.ClienteService;
@@ -42,23 +42,23 @@ public class ClienteController {
 	@PostMapping("/{usuarioId}")
 	@ResponseStatus(HttpStatus.CREATED)
 
-	public Cliente inserir(@RequestBody Cliente cliente, @PathVariable Long usuarioId) throws EnderecoException {
+	public Usuario inserir(@RequestBody Usuario usuario, @PathVariable Long usuarioId) throws EnderecoException {
 		
 		try {
-		    Endereco endereco = enderecoService.buscarEnderecoPorCep(cliente.getCep());
+		    Endereco endereco = enderecoService.buscarEnderecoPorCep(usuario.getCep());
 		    List<Endereco> listaEnderecos = new ArrayList<>();
 		    listaEnderecos.add(endereco);
-		    cliente.setEnderecos(listaEnderecos);
-		    return clienteService.inserir(cliente, usuarioId);
+		    usuario.setEnderecos(listaEnderecos);
+		    return clienteService.inserir(usuario, usuarioId);
 		}catch (EnderecoException e) {
 		    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado", e);
 		}
 	}
 
-	@PutMapping("/{id}/{usuarioId}") //passa id cliente e seu id usuario
-	public ResponseEntity<Cliente> alterar(@PathVariable Long id, @PathVariable Long usuarioId,
-			@RequestBody @Valid Cliente cliente) {
-		return clienteService.alterar(id, cliente, usuarioId);
+	@PutMapping("/{id}/{usuarioId}") //passa id usuario e seu id usuario
+	public ResponseEntity<Usuario> alterar(@PathVariable Long id, @PathVariable Long usuarioId,
+                                           @RequestBody @Valid Usuario usuario) {
+		return clienteService.alterar(id, usuario, usuarioId);
 	}
 
 }
